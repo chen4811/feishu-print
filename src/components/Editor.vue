@@ -74,16 +74,7 @@ const defaultConfig = {
     'save backcolor quickimage pagebreak insertdatetime removeformat code charmap visualblocks visualchars nonbreaking searchreplace exportpdf',
     'insertfile'
   ].join(' '),
-  font_family_formats: [
-    '微软雅黑',
-    '方正小标宋简体',
-    '宋体',
-    '仿宋',
-    '黑体',
-    '楷体',
-    'Arial',
-    'sans-serif'
-  ],
+  font_family_formats: '微软雅黑=微软雅黑;方正小标宋简体=方正小标宋简体;宋体=宋体;仿宋=仿宋;黑体=黑体;楷体=楷体;Arial=Arial;sans-serif=sans-serif',
   base_url: '/tinymce',
   setup: (editor: any) => {
     editor.on('BeforeSetContent', function(e: any) {

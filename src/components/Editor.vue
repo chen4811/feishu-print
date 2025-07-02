@@ -73,8 +73,7 @@ const defaultConfig = {
     'undo redo paperSizeButton fontfamily fontsize bold italic underline strikethrough align lineheight table fullscreen preview print',
     'quickimage pagebreak insertdatetime exportpdf'
   ].join(' '),
-  font_family_formats: '微软雅黑=微软雅黑;方正小标宋简体=方正小标宋简体;宋体=宋体;仿宋=仿宋;黑体=黑体;楷体=楷体;Arial=Arial;sans-serif=sans-serif',
-  base_url: '/tinymce',
+  font_family_formats: '微软雅黑=微软雅黑;方正小标宋简体=方正小标宋简体;宋体=宋体;仿宋=仿宋;黑体=黑体;楷体=楷体;Arial=Arial;sans-serif=Sans-serif;Times New Roman=Times New Roman;', 
   setup: (editor: any) => {
     editor.on('BeforeSetContent', function(e: any) {
       // Ensure template fields are correctly marked as non-editable

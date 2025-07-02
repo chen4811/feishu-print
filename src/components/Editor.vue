@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue';
-import tinymce from 'tinymce';
+import tinymce, { RawEditorOptions } from 'tinymce';
 import dayjs from 'dayjs';
 
 const formatTimestamp = (timestamp: number) => {
@@ -32,7 +32,7 @@ const props = defineProps({
     default: () => `tinymce-editor-${Math.random().toString(36).substring(7)}`
   },
   options: {
-    type: Object,
+    type: Object as PropType<Partial<RawEditorOptions>>,
     default: () => ({})
   },
   readonly: {
@@ -357,9 +357,3 @@ defineExpose({
 });
 
 </script>
-
-<style scoped>
-.custom-editor-container {
-
-}
-</style>

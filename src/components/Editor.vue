@@ -57,7 +57,7 @@ const defaultConfig = {
   `,
   ui_mode: 'combined',
   menubar: false, // 隐藏菜单栏
-  toolbar_mode: 'floating' as const, // 工具栏换行模式
+  toolbar_mode: 'floating' as 'floating', // 工具栏换行模式
   font_size_input_default_unit: "pt",
   statusbar: false, // 隐藏状态栏
   image_uploadtab: false,

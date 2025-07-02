@@ -57,7 +57,7 @@ const defaultConfig = {
   `,
   ui_mode: 'combined',
   menubar: false, // 隐藏菜单栏
-  toolbar_mode: 'floating', // 工具栏换行模式
+  toolbar_mode: 'floating' as const, // 工具栏换行模式
   font_size_input_default_unit: "pt",
   statusbar: false, // 隐藏状态栏
   image_uploadtab: false,
@@ -71,8 +71,7 @@ const defaultConfig = {
   ].join(' '),
   toolbar: [
     'undo redo paperSizeButton fontfamily fontsize bold italic underline strikethrough align lineheight table fullscreen preview print',
-    'save backcolor quickimage pagebreak insertdatetime removeformat code charmap visualblocks visualchars nonbreaking searchreplace exportpdf',
-    'insertfile'
+    'quickimage pagebreak insertdatetime exportpdf'
   ].join(' '),
   font_family_formats: '微软雅黑=微软雅黑;方正小标宋简体=方正小标宋简体;宋体=宋体;仿宋=仿宋;黑体=黑体;楷体=楷体;Arial=Arial;sans-serif=sans-serif',
   base_url: '/tinymce',

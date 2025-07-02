@@ -1,0 +1,42 @@
+    @font-face {
+      font-family: '微软雅黑';
+      src: url('./fonts/msyh.ttf');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+        font-family: '方正小标宋简体';
+        src: url('./fonts/fzxbsjw.ttf');
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: '宋体';
+        src: url('./fonts/simsun.ttf');
+        font-weight: normal;
+        font-style: normal;
+      }
+    @font-face {
+      font-family: '仿宋';
+      src: url('./fonts/simfang.ttf');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: '黑体';
+      src: url('./fonts/simhei.ttf');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: '楷体';
+      src: url('./fonts/simkai.ttf');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+        font-family: '华文细黑';
+        src: url('./fonts/cifb.ttf');
+        font-weight: normal;
+        font-style: normal;
+      }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import FieldList from './components/FieldList.vue';
-import Editor from './components/Editor.vue';
+import FieldList from '@/components/FieldList.vue';
+import Editor from '@/components/Editor.vue';
 import { ref, type Ref, onMounted, watch } from 'vue';
 import { ElMessageBox } from 'element-plus';
 import { bitable } from '@lark-base-open/js-sdk';
@@ -102,7 +102,90 @@ const currentRowData = ref<any>(null);
 onMounted(async () => {
   // Load dummy templates for demonstration
   templates.value = [
-    { id: '1', name: '模板一', content: '<p>这是<b>模板一</b>的内容。</p>' },
+    { id: '1', name: '医疗设备验收单', content: `<p style="text-align: center;"><span style="font-size: 18pt; font-family: 方正小标宋简体;">医疗设备验收单</span></p> 
+ <p style="text-align: right;"><span style="font-family: 仿宋;">□是/□否安装类</span></p>
+<table style="border-collapse: collapse; width: 100.072%; height: 745.031px;" border="1"><colgroup><col style="width: 18.2239%;"><col style="width: 32.8652%;"><col style="width: 17.1323%;"><col style="width: 31.7761%;"></colgroup>
+<tbody>
+<tr style="height: 38px;">
+<td><span style="font-family: 仿宋;">资产名称</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld0l6zAu7" data-fieldname="设备名称">{$设备名称}</span></td>
+<td><span style="font-family: 仿宋;">规格型号</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld2gouIKu" data-fieldname="规格型号">{$规格型号}</span></td>
+</tr>
+<tr style="height: 38px;">
+<td><span style="font-family: 仿宋;">注册证号</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldjM2ez5m" data-fieldname="注册证号">{$注册证号}</span></td>
+<td><span style="font-family: 仿宋;">数 量</span></td>
+<td>1 <span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld9d5fXdZ" data-fieldname="单位">{$单位}</span></td>
+</tr>
+<tr style="height: 38px">
+<td><span style="font-family: 仿宋;">生产厂家</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="flddb8GuUz" data-fieldname="生产厂家">{$生产厂家}</span></td>
+<td><span style="font-family: 仿宋;">供应商</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldu2T1J8S" data-fieldname="供应商">{$供应商}</span></td>
+</tr>
+<tr style="height: 38px">
+<td><span style="font-family: 仿宋;">出厂编号</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld6BPUxvb" data-fieldname="序列号">{$序列号}</span></td>
+<td><span style="font-family: 仿宋;">生产日期</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldo9bMgLl" data-fieldname="生产日期" data-fieldtype="DateTime">{$生产日期}</span></td>
+</tr>
+<tr style="height: 38px">
+<td><span style="font-family: 仿宋;">使用年限</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld56DEOGB" data-fieldname="使用年限">{$使用年限}</span></td>
+<td><span style="font-family: 仿宋;">放置位置</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldAnArF9M" data-fieldname="楼层">{$楼层}</span> <span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldNrfi9fz" data-fieldname="房间">{$房间}</span></td>
+</tr>
+<tr style="height: 38px">
+<td><span style="font-family: 仿宋;">使用科室</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldmFepucJ" data-fieldname="使用部门">{$使用部门}</span></td>
+<td><span style="font-family: 仿宋;">保管人</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldob1qFGp" data-fieldname="保管人">{$保管人}</span></td>
+</tr>
+<tr style="height: 38px">
+<td style="text-align: center;" colspan="4"><strong><span style="font-family: 仿宋;">附&nbsp; 件</span></strong></td>
+</tr>
+<tr style="height: 38px">
+<td><span style="font-family: 仿宋;">合格证</span></td>
+<td>&nbsp;</td>
+<td><span style="font-family: 仿宋;">说明书</span></td>
+<td>&nbsp;</td>
+</tr>
+<tr style="height: 38px">
+<td><span style="font-family: 仿宋;">技术资料</span></td>
+<td>&nbsp;</td>
+<td><span style="font-family: 仿宋;">其他附件</span></td>
+<td>&nbsp;</td>
+</tr>
+<tr style="height: 38px">
+<td style="text-align: center;" colspan="4"><strong><span style="font-family: 仿宋;">验收流程确认</span></strong></td>
+</tr>
+<tr style="height: 38px">
+<td><span style="font-family: 仿宋;">交付资产完好</span></td>
+<td><span style="font-family: 仿宋;">□是&nbsp; □否</span></td>
+<td><span style="font-family: 仿宋;">设备性能良好</span></td>
+<td><span style="font-family: 仿宋;">□是&nbsp; □否</span></td>
+</tr>
+<tr style="height: 38px">
+<td><span style="font-family: 仿宋;">主要功能正常<br></span></td>
+<td><span style="font-family: 仿宋;">□是&nbsp; □否</span></td>
+<td><span style="font-family: 仿宋;">操作教育完成<br></span></td>
+<td><span style="font-family: 仿宋;">□是&nbsp; □否</span></td>
+</tr>
+<tr style="height: 55.2344px;">
+<td style="vertical-align: top;" colspan="4" rowspan="4">
+<p><span style="font-family: 仿宋;">使用科室（签字）： &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;日期：</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 仿宋;">工程师（签字）： &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;电话：</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 仿宋;">医品部（签字）：</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 仿宋;">财务部（签字）：</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><span style="font-family: 仿宋;">注:本验收报告一式3份，医品部、财务部、所在科室各1份存档。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2025-07-04</span></p>` },
     { id: '2', name: '模板二', content: '<p>这是<i>模板二</i>的内容。</p>' },
   ];
 
@@ -145,7 +228,7 @@ onMounted(async () => {
       <el-container>
         <el-header style="border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between;">
           <div>
-            <el-select v-model="selectedTemplate" placeholder="选择模板" style="width: 120px; margin-right: 10px;" :disabled="!isEditable">
+            <el-select v-model="selectedTemplate" placeholder="选择模板" style="width: 120px; margin-right: 10px;" >
               <el-option v-for="template in templates" :key="template.id" :label="template.name" :value="template.id"></el-option>
             </el-select>
             <el-button type="success" @click="handleNewTemplate">新增</el-button>

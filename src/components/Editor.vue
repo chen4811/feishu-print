@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue';
-import tinymce, { RawEditorOptions } from 'tinymce';
+import { ref, onMounted, onUnmounted, watch, type PropType } from 'vue';
+import tinymce, { type RawEditorOptions } from 'tinymce';
 import dayjs from 'dayjs';
 
 const formatTimestamp = (timestamp: number) => {
@@ -63,7 +63,7 @@ const defaultConfig = {
   image_uploadtab: false,
   image_upload_url: '/upload',
   quickbars_image_toolbar: 'alignleft aligncenter alignright | imageoptions',
-  font_css: '/myFont.css',
+  font_css: './src/assets/myFont.css',
   plugins: [
     'autosave', 'charmap', 'fullscreen', 'image', 'insertdatetime', 'lists', 'code',
     'nonbreaking', 'pagebreak', 'preview', 'quickbars', 'save', 'searchreplace',
@@ -71,7 +71,7 @@ const defaultConfig = {
   ].join(' '),
   toolbar: [
     'undo redo paperSizeButton fontfamily fontsize bold italic underline strikethrough align lineheight table fullscreen preview print',
-    'quickimage pagebreak insertdatetime exportpdf'
+    'quickimage pagebreak code insertdatetime exportpdf'
   ].join(' '),
   font_family_formats: '微软雅黑=微软雅黑;方正小标宋简体=方正小标宋简体;宋体=宋体;仿宋=仿宋;黑体=黑体;楷体=楷体;Arial=Arial;sans-serif=Sans-serif;Times New Roman=Times New Roman;', 
   setup: (editor: any) => {
@@ -108,7 +108,7 @@ const defaultConfig = {
     });
         editor.addCommand('mceSetPageSize', (ui: any, value: string) => {
       const pageSizeMap: { [key: string]: { width: string; height: string } } = {
-        'A4': { width: '793.733px', height: '1050.6px' },
+        'A4': { width: '210mm', height: '297mm' },
         'A5': { width: '559.333px', height: '741px' },
       };
 
@@ -119,7 +119,7 @@ const defaultConfig = {
           tinymceElement.style.width = size.width;
           tinymceElement.style.height = size.height;
           tinymceElement.style.margin = 'auto'; // 居中显示
-          tinymceElement.style.boxShadow = '0 0 4px rgba(0,0,0,.15)'; // 添加阴影
+          //tinymceElement.style.boxShadow = '0 0 4px rgba(0,0,0,.15)'; // 添加阴影
           tinymceElement.style.backgroundColor = '#fff'; // 白色背景
           tinymceElement.style.padding = '20mm'; // 模拟页边距
           tinymceElement.style.boxSizing = 'border-box'; // 边框盒模型
@@ -130,7 +130,7 @@ const defaultConfig = {
 
     editor.ui.registry.addMenuButton('paperSizeButton', {
   text: paperSize.value, // 动态显示当前纸张大小
-  tooltip: '纸张大小设置',
+  tooltip: '纸张大小',
   fetch: (callback: any) => {
     const items = [
       { type: 'menuitem', text: 'A4', onAction: () => editor.execCommand('mceSetPageSize', false, 'A4') },
@@ -146,7 +146,7 @@ const defaultConfig = {
 
 //编辑器高度随窗口变化
 onMounted(() => {
-  tinymce.init({
+  return tinymce.init({
     api_key: '1yiqgiknc2aknys03ekamqwx94v2gja6wvpjbt1q21m3zkkw',
     selector: `#${editorId.value}`,
     ...defaultConfig,
@@ -162,6 +162,7 @@ onMounted(() => {
       setTimeout(() => {
         toggleEditorMode();
       }, 0); // 使用 setTimeout 确保在下一个事件循环中执行
+
       // 监听窗口大小变化
       window.onresize = () => {
         if (editorInstance) {
@@ -171,7 +172,7 @@ onMounted(() => {
             // 实际应用中可能需要更精确的计算，例如减去头部、底部等固定元素的高度
             const parentHeight = window.innerHeight;
             // 假设编辑器上方有其他元素，例如 Element Plus 的 el-header，其默认高度为 60px
-            const offsetHeight = 60; 
+            const offsetHeight = 60;
             const newHeight = parentHeight - offsetHeight;
             editorContainer.style.height = `${newHeight}px`;
           }

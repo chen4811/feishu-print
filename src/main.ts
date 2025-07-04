@@ -1,11 +1,11 @@
-import './assets/main.css'
+import '@/assets/main.css'
 
 import { createApp } from 'vue'
-import App from './App.vue'
+import App from '@/App.vue'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
-import './plugins/tinymce-plugins';
+import '../plugins/tinymce-plugins';
 
 const app = createApp(App)
 

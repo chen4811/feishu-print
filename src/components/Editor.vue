@@ -63,7 +63,7 @@ const defaultConfig = {
   image_uploadtab: false,
   image_upload_url: '/upload',
   quickbars_image_toolbar: 'alignleft aligncenter alignright | imageoptions',
-  font_css: '/myFont.css',
+  font_css: './src/assets/myFont.css',
   plugins: [
     'autosave', 'charmap', 'fullscreen', 'image', 'insertdatetime', 'lists', 'code',
     'nonbreaking', 'pagebreak', 'preview', 'quickbars', 'save', 'searchreplace',
@@ -71,7 +71,7 @@ const defaultConfig = {
   ].join(' '),
   toolbar: [
     'undo redo paperSizeButton fontfamily fontsize bold italic underline strikethrough align lineheight table fullscreen preview print',
-    'quickimage pagebreak insertdatetime exportpdf'
+    'quickimage pagebreak code insertdatetime exportpdf'
   ].join(' '),
   font_family_formats: '微软雅黑=微软雅黑;方正小标宋简体=方正小标宋简体;宋体=宋体;仿宋=仿宋;黑体=黑体;楷体=楷体;Arial=Arial;sans-serif=Sans-serif;Times New Roman=Times New Roman;', 
   setup: (editor: any) => {
@@ -108,7 +108,7 @@ const defaultConfig = {
     });
         editor.addCommand('mceSetPageSize', (ui: any, value: string) => {
       const pageSizeMap: { [key: string]: { width: string; height: string } } = {
-        'A4': { width: '793.733px', height: '1050.6px' },
+        'A4': { width: '210mm', height: '297mm' },
         'A5': { width: '559.333px', height: '741px' },
       };
 

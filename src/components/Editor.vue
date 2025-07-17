@@ -6,9 +6,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed, type PropType } from 'vue';
-import tinymce, { type RawEditorOptions } from 'tinymce';
+import { Editor, RawEditorOptions } from 'tinymce';
 import dayjs from 'dayjs';
-
 
 const formatTimestamp = (timestamp: number) => {
   return dayjs(timestamp).format('YYYY/MM/DD');
@@ -18,10 +17,9 @@ const formatTimestamp = (timestamp: number) => {
 import 'tinymce/themes/silver';
 import 'tinymce/icons/default';
 
-
 const props = defineProps({
   recordData: {
-    type: Object,
+    type: Object as PropType<Record<string, any> | null>,
     default: null
   },
   modelValue: {
@@ -45,7 +43,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const editorId = ref(props.id);
-let editorInstance: any | null = null;
+let editorInstance: Editor | null = null;
 const paperSize = ref('A4'); // 默认纸张大小为A4
 
 const defaultConfig = {
@@ -75,7 +73,7 @@ const defaultConfig = {
     'quickimage pagebreak code insertdatetime exportpdf'
   ].join(' '),
   font_family_formats: '微软雅黑=微软雅黑;方正小标宋简体=方正小标宋简体;宋体=宋体;仿宋=仿宋;黑体=黑体;楷体=楷体;Arial=Arial;sans-serif=Sans-serif;Times New Roman=Times New Roman;', 
-  setup: (editor: any) => {
+  setup: (editor: Editor) => {
     editor.on('BeforeSetContent', function(e: any) {
       // Ensure template fields are correctly marked as non-editable
       if (e.content.includes('class="template-field"')) {
@@ -89,6 +87,7 @@ const defaultConfig = {
         e.content = doc.body.innerHTML;
       }
     });
+    
     editor.on('PastePreProcess', function(e: any) {
       // Ensure pasted template fields are correctly marked as non-editable
       if (e.content.includes('class="template-field"')) {
@@ -102,12 +101,14 @@ const defaultConfig = {
         e.content = doc.body.innerHTML;
       }
     });
+    
     editor.on('change input undo redo', () => {
       if (editorInstance) {
         emit('update:modelValue', editorInstance.getContent());
       }
     });
-        editor.addCommand('mceSetPageSize', (ui: any, value: string) => {
+    
+    editor.addCommand('mceSetPageSize', (ui: any, value: string) => {
       const pageSizeMap: { [key: string]: { width: string; height: string } } = {
         'A4': { width: '210mm', height: '297mm' },
         'A5': { width: '148mm', height: '210mm' },
@@ -120,7 +121,6 @@ const defaultConfig = {
           tinymceElement.style.width = size.width;
           tinymceElement.style.height = size.height;
           tinymceElement.style.margin = 'auto'; // 居中显示
-          //tinymceElement.style.boxShadow = '0 0 4px rgba(0,0,0,.15)'; // 添加阴影
           tinymceElement.style.backgroundColor = '#fff'; // 白色背景
           tinymceElement.style.padding = '20mm'; // 模拟页边距
           tinymceElement.style.boxSizing = 'border-box'; // 边框盒模型
@@ -129,25 +129,37 @@ const defaultConfig = {
       }
     });
 
-const paperSizeText = computed(() => paperSize.value);
+    const paperSizeText = computed(() => paperSize.value);
 
-editor.ui.registry.addMenuButton('paperSizeButton', {
-  text: paperSizeText.value,
-  tooltip: '纸张大小设置',
-  fetch: (callback: any) => {
-    const items = [
-      { type: 'menuitem', text: 'A4', onAction: () => editor.execCommand('mceSetPageSize', false, 'A4') },
-      { type: 'menuitem', text: 'A5', onAction: () => editor.execCommand('mceSetPageSize', false, 'A5') },
-    ];
-    callback(items);
-  }
-});
+    editor.ui.registry.addMenuButton('paperSizeButton', {
+      text: paperSizeText.value,
+      tooltip: '纸张大小设置',
+      fetch: (callback: any) => {
+        const items = [
+          { type: 'menuitem', text: 'A4', onAction: () => editor.execCommand('mceSetPageSize', false, 'A4') },
+          { type: 'menuitem', text: 'A5', onAction: () => editor.execCommand('mceSetPageSize', false, 'A5') },
+        ];
+        callback(items);
+      }
+    });
   }
 };
 
-//编辑器高度随窗口变化
+// 编辑器高度随窗口变化
+const handleResize = () => {
+  if (editorInstance) {
+    const editorContainer = editorInstance.getContainer();
+    if (editorContainer) {
+      const parentHeight = window.innerHeight;
+      const offsetHeight = 60; // 顶部元素高度
+      const newHeight = parentHeight - offsetHeight;
+      editorContainer.style.height = `${newHeight}px`;
+    }
+  }
+};
+
 onMounted(() => {
-  return tinymce.init({
+  tinymce.init({
     api_key: '1yiqgiknc2aknys03ekamqwx94v2gja6wvpjbt1q21m3zkkw',
     selector: `#${editorId.value}`,
     ...defaultConfig,
@@ -159,26 +171,14 @@ onMounted(() => {
       editorInstance.setContent(props.modelValue);
       // 默认设置为A4纸张大小
       editorInstance.execCommand('mceSetPageSize', false, 'A4');
+      
       // 确保在编辑器完全初始化并渲染后执行
       setTimeout(() => {
         toggleEditorMode();
-      }, 0); // 使用 setTimeout 确保在下一个事件循环中执行
-
+      }, 0);
+      
       // 监听窗口大小变化
-      window.onresize = () => {
-        if (editorInstance) {
-          const editorContainer = editorInstance.getContainer();
-          if (editorContainer) {
-            // 获取父容器的高度，这里假设父容器是body或者其他可以充满屏幕的元素
-            // 实际应用中可能需要更精确的计算，例如减去头部、底部等固定元素的高度
-            const parentHeight = window.innerHeight;
-            // 假设编辑器上方有其他元素，例如 Element Plus 的 el-header，其默认高度为 60px
-            const offsetHeight = 60;
-            const newHeight = parentHeight - offsetHeight;
-            editorContainer.style.height = `${newHeight}px`;
-          }
-        }
-      };
+      window.addEventListener('resize', handleResize);
       // 首次加载时也调整高度
       window.dispatchEvent(new Event('resize'));
     }
@@ -190,76 +190,87 @@ onUnmounted(() => {
     editorInstance.destroy();
     editorInstance = null;
   }
+  window.removeEventListener('resize', handleResize);
 });
 
 watch(() => props.modelValue, (newValue) => {
   if (editorInstance && editorInstance.getContent() !== newValue) {
     editorInstance.setContent(newValue);
   }
-});
+}, { immediate: true });
 
 const applyIframeStyles = () => {
-    if (!editorInstance) return;
+  if (!editorInstance) return;
 
-    const iframe = editorInstance.iframeElement;
-    if (!iframe) return;
+  const iframe = editorInstance.iframeElement;
+  if (!iframe) return;
 
+  const onIframeLoad = () => {
     const tinymceElement = iframe.contentDocument.getElementById('tinymce');
     if (!tinymceElement) return;
 
     console.log('applyIframeStyles called. props.readonly:', props.readonly);
 
-    const setStyles = (readOnly: boolean) => {
-      const pointerEvents = readOnly ? "none" : "auto";
-      const userSelect = readOnly ? "none" : "text";
-      const cursor = readOnly ? "default" : "text";
-
-      tinymceElement.style.pointerEvents = pointerEvents;
-      tinymceElement.style.userSelect = userSelect;
-      tinymceElement.style.cursor = cursor;
-      tinymceElement.style.webkitUserSelect = userSelect;
-      tinymceElement.style.MozUserSelect = userSelect;
-      tinymceElement.style.msUserSelect = userSelect;
-      tinymceElement.style.KhtmlUserSelect = userSelect;
-    };
-
-    setStyles(props.readonly);
-  };
-
-  const toggleEditorMode = () => {
-    if (editorInstance) {
-      editorInstance.mode.set(props.readonly ? "readonly" : "design"); // 根据 readonly 属性设置模式
-      // Add a small delay to allow the editor mode to fully transition
-      applyIframeStyles();
+    // 只在只读模式下应用限制样式
+    if (props.readonly) {
+      tinymceElement.style.pointerEvents = "none";
+      tinymceElement.style.userSelect = "none";
+      tinymceElement.style.cursor = "default";
+    } else {
+      // 在编辑模式下恢复默认样式
+      tinymceElement.style.pointerEvents = "auto";
+      tinymceElement.style.userSelect = "text";
+      tinymceElement.style.cursor = "text";
     }
+    
+    // 保留其他用户选择相关的样式，但只在只读模式下应用
+    tinymceElement.style.webkitUserSelect = props.readonly ? "none" : "text";
+    tinymceElement.style.MozUserSelect = props.readonly ? "none" : "text";
+    tinymceElement.style.msUserSelect = props.readonly ? "none" : "text";
+    tinymceElement.style.KhtmlUserSelect = props.readonly ? "none" : "text";
   };
 
+  if (iframe.contentDocument.readyState === 'complete') {
+    onIframeLoad();
+  } else {
+    iframe.addEventListener('load', onIframeLoad);
+  }
+};
 
 
-  watch(() => props.readonly, (newVal) => {
-    toggleEditorMode();
-  });
+const toggleEditorMode = () => {
+  if (editorInstance) {
+    editorInstance.mode.set(props.readonly ? "readonly" : "design");
+    applyIframeStyles();
+  }
+};
 
 const originalContent = ref(''); // Store original content before preview
 
 const getFieldValue = (fieldCell: any): string => {
   if (Array.isArray(fieldCell)) {
-    return fieldCell.filter(item => item !== null && item !== undefined).map(item => (typeof item === 'object' && item !== null) ? (item.text || item.name || '') : String(item || '')).join(', ');
+    return fieldCell
+      .filter(item => item !== null && item !== undefined)
+      .map(item => 
+        typeof item === 'object' && item !== null 
+          ? (item.text || item.name || '') 
+          : String(item || '')
+      )
+      .join(', ');
   } else if (typeof fieldCell === 'object' && fieldCell !== null) {
-    // Check if it's an image field with a 'url' property
     if ('url' in fieldCell && typeof (fieldCell as any).url === 'string') {
       return `<img src="${(fieldCell as any).url}" style="max-width: 100%; height: auto;" />`;
     } else if ('text' in fieldCell) {
       return (fieldCell as any).text;
     }
-  } else if (typeof fieldCell === 'number' && String(fieldCell).length === 13) { // Assuming 13-digit timestamp
+  } else if (typeof fieldCell === 'number' && String(fieldCell).length === 13) {
     return formatTimestamp(fieldCell);
   }
   return String(fieldCell || '');
 };
 
 const renderPreview = () => {
-  if (!editorInstance || !props.recordData) return;
+  if (!editorInstance || !props.recordData || !props.recordData.fields) return;
 
   let content = editorInstance.getContent();
   const parser = new DOMParser();
@@ -273,7 +284,7 @@ const renderPreview = () => {
 
   fieldElements.forEach(element => {
     const fieldId = element.getAttribute('data-fieldid');
-    const fieldName = element.getAttribute('data-fieldname'); // Fallback to fieldName if ID is not enough
+    const fieldName = element.getAttribute('data-fieldname');
     let value = '';
 
     if (props.recordData.fields) {
@@ -282,8 +293,7 @@ const renderPreview = () => {
       } else if (fieldName && props.recordData.fields[fieldName]) {
         value = getFieldValue(props.recordData.fields[fieldName]);
       } else {
-        // If fieldId is not found, try to find by fieldName as a fallback
-        const fieldEntry = Object.entries(props.recordData.fields).find(([key, val]: [string, any]) => {
+        const fieldEntry = Object.entries(props.recordData.fields).find(([key, val]) => {
           if (val === null || val === undefined) {
             return false;
           }
@@ -291,8 +301,6 @@ const renderPreview = () => {
         });
         if (fieldEntry) {
           value = getFieldValue(fieldEntry[1]);
-        } else {
-          value = ''; // Display empty if no data
         }
       }
     }
@@ -302,27 +310,41 @@ const renderPreview = () => {
   editorInstance.setContent(doc.body.innerHTML);
 };
 
+// 修改 readonly 模式切换逻辑
 watch(() => props.readonly, (newVal) => {
   if (editorInstance) {
-    if (newVal) { // Entering readonly (preview) mode
-      originalContent.value = editorInstance.getContent(); // Save current content
+    if (newVal) { // 进入只读模式
+      originalContent.value = editorInstance.getContent();
       renderPreview();
       editorInstance.mode.set('readonly');
-    } else { // Exiting readonly (entering design) mode
+    } else { // 进入编辑模式
       if (originalContent.value) {
-        editorInstance.setContent(originalContent.value); // Restore original content
+        editorInstance.setContent(originalContent.value);
       }
       editorInstance.mode.set('design');
+      
+      // 确保编辑器内容可编辑
+      setTimeout(() => {
+        const iframe = editorInstance.iframeElement;
+        if (iframe && iframe.contentDocument) {
+          const body = iframe.contentDocument.body;
+          if (body) {
+            body.contentEditable = "true";
+          }
+        }
+      }, 100);
     }
+    
+    // 应用样式
+    applyIframeStyles();
   }
-});
+}, { immediate: true });
 
 watch(() => props.recordData, (newData) => {
   if (props.readonly && editorInstance && newData) {
-    // If in preview mode and recordData changes, re-render preview
     renderPreview();
   }
-}, { deep: true });
+}, { deep: true, immediate: true });
 
 import { FieldType } from '@lark-base-open/js-sdk';
 
@@ -330,8 +352,6 @@ const insertContent = (field: any) => {
   if (editorInstance) {
     let contentToInsert = '';
     if (field.type === FieldType.Attachment) {
-      // For attachment type, insert an image tag if it's an image, otherwise just the name
-      // Assuming field.value might contain an array of attachments, or a single attachment object
       if (field.value && Array.isArray(field.value) && field.value.length > 0) {
         const firstAttachment = field.value[0];
         if (firstAttachment.url) {
@@ -356,5 +376,4 @@ const insertContent = (field: any) => {
 defineExpose({
   insertContent
 });
-
-</script>
+</script>  

@@ -5,9 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, type PropType } from 'vue';
+import { ref, onMounted, onUnmounted, watch, computed, type PropType } from 'vue';
 import tinymce, { type RawEditorOptions } from 'tinymce';
 import dayjs from 'dayjs';
+
 
 const formatTimestamp = (timestamp: number) => {
   return dayjs(timestamp).format('YYYY/MM/DD');
@@ -109,7 +110,7 @@ const defaultConfig = {
         editor.addCommand('mceSetPageSize', (ui: any, value: string) => {
       const pageSizeMap: { [key: string]: { width: string; height: string } } = {
         'A4': { width: '210mm', height: '297mm' },
-        'A5': { width: '559.333px', height: '741px' },
+        'A5': { width: '148mm', height: '210mm' },
       };
 
       const size = pageSizeMap[value];
@@ -128,15 +129,15 @@ const defaultConfig = {
       }
     });
 
-    editor.ui.registry.addMenuButton('paperSizeButton', {
-  text: paperSize.value, // 动态显示当前纸张大小
-  tooltip: '纸张大小',
+const paperSizeText = computed(() => paperSize.value);
+
+editor.ui.registry.addMenuButton('paperSizeButton', {
+  text: paperSizeText.value,
+  tooltip: '纸张大小设置',
   fetch: (callback: any) => {
     const items = [
       { type: 'menuitem', text: 'A4', onAction: () => editor.execCommand('mceSetPageSize', false, 'A4') },
       { type: 'menuitem', text: 'A5', onAction: () => editor.execCommand('mceSetPageSize', false, 'A5') },
-      
-      // 添加更多的选项...
     ];
     callback(items);
   }

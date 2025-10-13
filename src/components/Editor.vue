@@ -122,7 +122,7 @@ const defaultConfig = {
           tinymceElement.style.height = size.height;
           tinymceElement.style.margin = 'auto'; // 居中显示
           tinymceElement.style.backgroundColor = '#fff'; // 白色背景
-          tinymceElement.style.padding = '20mm'; // 模拟页边距
+          tinymceElement.style.padding = '10mm'; // 模拟页边距
           tinymceElement.style.boxSizing = 'border-box'; // 边框盒模型
           paperSize.value = value; // 更新纸张大小显示
         }

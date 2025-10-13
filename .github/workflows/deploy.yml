@@ -34,7 +34,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: npx vite build --emptyOutDir
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

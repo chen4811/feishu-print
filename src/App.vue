@@ -248,9 +248,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.common-layout {
-  
-}
 .el-aside {
   /*background-color: #fafafa;*/
   width: 160px;

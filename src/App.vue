@@ -104,7 +104,7 @@ onMounted(async () => {
   templates.value = [
     { id: '1', name: '医疗设备验收单', content: `<p style="text-align: center;"><span style="font-size: 18pt; font-family: 方正小标宋简体;">医疗设备验收单</span></p> 
  <p style="text-align: right;"><span style="font-family: 仿宋;">□是/□否安装类</span></p>
-<table style="border-collapse: collapse; width: 100.072%; height: 745.031px;" border="1"><colgroup><col style="width: 18.2239%;"><col style="width: 32.8652%;"><col style="width: 17.1323%;"><col style="width: 31.7761%;"></colgroup>
+<table style="border-collapse: collapse; width: 100.072%; height: 745.031px;" border="1"><colgroup><col style="width: 16%;"><col style="width: 34%;"><col style="width: 16%;"><col style="width: 34%;"></colgroup>
 <tbody>
 <tr style="height: 38px;">
 <td><span style="font-family: 仿宋;">资产名称</span></td>

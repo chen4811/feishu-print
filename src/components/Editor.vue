@@ -5,8 +5,9 @@
 </template>
 
 <script setup lang="ts">
+declare const tinymce: any;
 import { ref, onMounted, onUnmounted, watch, computed, type PropType } from 'vue';
-import { Editor, RawEditorOptions } from 'tinymce';
+import { Editor, type RawEditorOptions } from 'tinymce';
 import dayjs from 'dayjs';
 
 const formatTimestamp = (timestamp: number) => {
@@ -170,7 +171,9 @@ onMounted(() => {
       editorInstance = editors[0];
       editorInstance.setContent(props.modelValue);
       // 默认设置为A4纸张大小
-      editorInstance.execCommand('mceSetPageSize', false, 'A4');
+      if (editorInstance) {
+        editorInstance.execCommand('mceSetPageSize', false, 'A4');
+      }
       
       // 确保在编辑器完全初始化并渲染后执行
       setTimeout(() => {
@@ -203,38 +206,30 @@ const applyIframeStyles = () => {
   if (!editorInstance) return;
 
   const iframe = editorInstance.iframeElement;
-  if (!iframe) return;
+  if (!iframe || !iframe.contentDocument) return;
 
-  const onIframeLoad = () => {
-    const tinymceElement = iframe.contentDocument.getElementById('tinymce');
-    if (!tinymceElement) return;
+  const tinymceElement = iframe.contentDocument.getElementById('tinymce');
+  if (!tinymceElement || !tinymceElement.style) return;
 
-    console.log('applyIframeStyles called. props.readonly:', props.readonly);
+  console.log('applyIframeStyles called. props.readonly:', props.readonly);
 
-    // 只在只读模式下应用限制样式
-    if (props.readonly) {
-      tinymceElement.style.pointerEvents = "none";
-      tinymceElement.style.userSelect = "none";
-      tinymceElement.style.cursor = "default";
-    } else {
-      // 在编辑模式下恢复默认样式
-      tinymceElement.style.pointerEvents = "auto";
-      tinymceElement.style.userSelect = "text";
-      tinymceElement.style.cursor = "text";
-    }
-    
-    // 保留其他用户选择相关的样式，但只在只读模式下应用
-    tinymceElement.style.webkitUserSelect = props.readonly ? "none" : "text";
-    tinymceElement.style.MozUserSelect = props.readonly ? "none" : "text";
-    tinymceElement.style.msUserSelect = props.readonly ? "none" : "text";
-    tinymceElement.style.KhtmlUserSelect = props.readonly ? "none" : "text";
-  };
-
-  if (iframe.contentDocument.readyState === 'complete') {
-    onIframeLoad();
+  // 只在只读模式下应用限制样式
+  if (props.readonly) {
+    tinymceElement.style.pointerEvents = "none";
+    tinymceElement.style.userSelect = "none";
+    tinymceElement.style.cursor = "default";
   } else {
-    iframe.addEventListener('load', onIframeLoad);
+    // 在编辑模式下恢复默认样式
+    tinymceElement.style.pointerEvents = "auto";
+    tinymceElement.style.userSelect = "text";
+    tinymceElement.style.cursor = "text";
   }
+  
+  // 保留其他用户选择相关的样式，但只在只读模式下应用
+  (tinymceElement.style as any).webkitUserSelect = props.readonly ? "none" : "text";
+  (tinymceElement.style as any).MozUserSelect = props.readonly ? "none" : "text";
+  (tinymceElement.style as any).msUserSelect = props.readonly ? "none" : "text";
+  (tinymceElement.style as any).KhtmlUserSelect = props.readonly ? "none" : "text";
 };
 
 
@@ -252,7 +247,7 @@ const getFieldValue = (fieldCell: any): string => {
     return fieldCell
       .filter(item => item !== null && item !== undefined)
       .map(item => 
-        typeof item === 'object' && item !== null 
+        typeof item === 'object' && item !== null && 'name' in item
           ? (item.text || item.name || '') 
           : String(item || '')
       )
@@ -376,4 +371,4 @@ const insertContent = (field: any) => {
 defineExpose({
   insertContent
 });
-</script>  
+</script>

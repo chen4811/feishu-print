@@ -34,11 +34,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npx vite build --emptyOutDir
-        env:
-          VITE_SKIP_TS_CHECK: true
-          SKIP_TS_CHECK: true
-          TSC_SKIP: true
+        run: npm run build-only
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

@@ -116,7 +116,7 @@ onMounted(async () => {
 <td><span style="font-family: 仿宋;">注册证号</span></td>
 <td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldjM2ez5m" data-fieldname="注册证号">{$注册证号}</span></td>
 <td><span style="font-family: 仿宋;">数 量</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld9d5fXdZ" data-fieldname="单位">1 {$单位}</span></td>
+<td><span style="font-family: 仿宋;">1 </span><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld9d5fXdZ" data-fieldname="单位">{$单位}</span></td>
 </tr>
 <tr style="height: 38px">
 <td><span style="font-family: 仿宋;">生产厂家</span></td>
@@ -132,7 +132,7 @@ onMounted(async () => {
 </tr>
 <tr style="height: 38px">
 <td><span style="font-family: 仿宋;">使用年限</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld56DEOGB" data-fieldname="使用年限">{$使用年限} 年</span></td>
+<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld56DEOGB" data-fieldname="使用年限">{$使用年限}</span><span style="font-family: 仿宋;">年</span></td>
 <td><span style="font-family: 仿宋;">放置位置</span></td>
 <td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldAnArF9M" data-fieldname="楼层">{$楼层}</span> <span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldNrfi9fz" data-fieldname="房间">{$房间}</span></td>
 </tr>

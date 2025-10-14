@@ -185,7 +185,7 @@ onMounted(async () => {
 </tr>
 </tbody>
 </table>
-<p><span style="font-family: 仿宋;">注:本验收报告一式3份，医品部、财务部、所在科室各1份存档。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2025-07-04</span></p>` },
+<p><span style="font-family: 仿宋;">注:本验收报告一式3份，医品部、财务部、所在科室各1份存档。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;年&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;日</span></p>` },
     { id: '2', name: '模板二', content: '<p>这是<i>模板二</i>的内容。</p>' },
   ];
 

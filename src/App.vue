@@ -102,71 +102,168 @@ const currentRowData = ref<any>(null);
 onMounted(async () => {
   // Load dummy templates for demonstration
   templates.value = [
-    { id: '1', name: '医疗设备验收单', content: `<p style="text-align: center;"><span style="font-size: 22pt; font-family: 方正小标宋简体;">医疗设备验收单</span></p> 
- <p style="text-align: right;"><span style="font-family: 仿宋;">□是/□否安装类</span></p>
+    { id: '1', name: '医疗设备验收单', content: `
+    
+    <p class="MsoNormal" align="center"><span style="font-family: 方正小标宋简体; font-size: 18pt;">医疗设备验收单</span></p>
+<table style="border-collapse: collapse; width: 99.9865%; height: 650.469px;" border="1"><colgroup><col style="width: 13.9467%;"><col style="width: 35.9825%;"><col style="width: 13.9467%;"><col style="width: 35.9825%;"></colgroup>
+<tbody>
+<tr style="height: 50.0625px;">
+<td class="et3" style="width: 34.5pt; line-height: 1.5;" width="46" height="24"><span style="font-family: 宋体;">资产名称</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="fld0l6zAu7" data-fieldname="设备名称">{$设备名称}</span></td>
+<td class="et3" style="width: 34.5pt; line-height: 1.5;" width="46" height="24"><span style="font-family: 宋体;">出厂编号</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="fld6BPUxvb" data-fieldname="序列号/出厂编号">{$序列号/出厂编号}</span></td>
+</tr>
+<tr style="height: 50.0625px;">
+<td class="et4" style="line-height: 1.5;" height="24"><span style="font-family: 宋体;">规格型号</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="fld2gouIKu" data-fieldname="规格型号">{$规格型号}</span></td>
+<td class="et4" style="line-height: 1.5;" height="24"><span style="font-family: 宋体;">注册证号</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="fldjM2ez5m" data-fieldname="注册证号">{$注册证号}</span></td>
+</tr>
+<tr style="height: 50.0625px;">
+<td class="et4" style="line-height: 1.5;" height="24"><span style="font-family: 宋体;">生产厂家</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="flddb8GuUz" data-fieldname="生产厂家">{$生产厂家}</span></td>
+<td class="et4" style="line-height: 1.5;" height="24"><span style="font-family: 宋体;">生产日期</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="fldo9bMgLl" data-fieldname="生产日期" data-fieldtype="DateTime">{$生产日期}</span></td>
+</tr>
+<tr style="height: 50.0625px;">
+<td class="et4" style="line-height: 1.5;" height="24"><span style="font-family: 宋体;">使用年限</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="fld56DEOGB" data-fieldname="使用年限">{$使用年限}</span></td>
+<td class="et4" style="line-height: 1.5;" height="24"><span style="font-family: 宋体;">供 应 商</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="fldu2T1J8S" data-fieldname="供应商">{$供应商}</span></td>
+</tr>
+<tr style="height: 50.0625px;">
+<td class="et4" style="line-height: 1.5;" height="24"><span style="font-family: 宋体;">数<span style="mso-spacerun: yes;">&nbsp;</span><span class="font2"><span style="mso-spacerun: yes;">&nbsp;</span></span><span class="font2">量</span></span></td>
+<td style="line-height: 1.5;"><span style="font-family: 宋体;">1套</span></td>
+<td class="et4" style="line-height: 1.5;" height="24"><span style="font-family: 宋体;">放置位置</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="fldAnArF9M" data-fieldname="楼层">{$楼层}</span><span style="font-family: 宋体;">-</span><span class="template-field field-block" contenteditable="false" data-fieldid="fldNrfi9fz" data-fieldname="房间">{$房间}</span></td>
+</tr>
+<tr style="height: 50.0625px;">
+<td class="et4" style="line-height: 1.5;" height="24"><span style="font-family: 宋体;">使用科室</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="fldmFepucJ" data-fieldname="使用部门">{$使用部门}</span></td>
+<td class="et5" style="line-height: 1.5;" height="24"><span style="font-family: 宋体;">保 管 人</span></td>
+<td style="line-height: 1.5;"><span class="template-field field-block" contenteditable="false" data-fieldid="fldob1qFGp" data-fieldname="保管人">{$保管人}</span></td>
+</tr>
+<tr style="height: 46.0938px;">
+<td style="line-height: 1.5;" rowspan="2">
+<p class="MsoNormal"><span style="font-family: 宋体;"><strong>出厂资料</strong></span></p>
+</td>
+<td style="line-height: 1.5;" colspan="3"><span style="font-family: 宋体;">装箱单<span style="font-family: 宋体;">□</span>&nbsp; &nbsp; 合格证<span style="font-family: 宋体;">□</span>&nbsp; &nbsp; 说明书<span style="font-family: 宋体;">□</span> &nbsp;</span></td>
+</tr>
+<tr style="height: 46.0938px;">
+<td style="line-height: 1.5;" colspan="3"><span style="font-family: 宋体;">附件说明：</span></td>
+</tr>
+<tr style="height: 211.781px;">
+<td style="line-height: 1.5;">
+<p class="MsoNormal"><span style="font-family: 宋体;"><strong>验收记录</strong></span></p>
+</td>
+<td style="line-height: 2;" colspan="3"><span style="font-family: 宋体;">1、外观是否完好：是<span style="font-family: 宋体;">□</span> &nbsp; 否<span style="font-family: 宋体;">□</span></span><br><span style="font-family: 宋体;">2、规格型号是否相符：是□ &nbsp; 否<span style="font-family: 宋体;">□</span></span><br><span style="font-family: 宋体;">3、配件数量是否一致：是<span style="font-family: 宋体;">□</span> &nbsp; 否<span style="font-family: 宋体;">□</span></span><br><span style="font-family: 宋体;">4、参数配置是否一致：是<span style="font-family: 宋体;">□</span> &nbsp; 否<span style="font-family: 宋体;">□</span></span><br><span style="font-family: 宋体;">5、整机现在是否运行正常：是<span style="font-family: 宋体;">□</span> &nbsp; 否<span style="font-family: 宋体;">□</span></span><br><span style="font-family: 宋体;">6、操作教育是否完成：是<span style="font-family: 宋体;">□</span> &nbsp; 否<span style="font-family: 宋体;">□</span></span></td>
+</tr>
+<tr style="height: 46.125px;">
+<td style="line-height: 1.5;"><span style="font-family: 宋体;"><strong>验收结论</strong></span></td>
+<td style="line-height: 1.5;"><span style="font-family: 宋体;">合格<span style="font-family: 宋体;">□</span>&nbsp; &nbsp; 不合格<span style="font-family: 宋体;">□</span></span></td>
+<td style="line-height: 1.5;"><span style="font-family: 宋体;"><strong>待解诀问题</strong></span></td>
+<td style="line-height: 1.5;"><span style="font-family: 宋体;">有<span style="font-family: 宋体;">□</span>(附后) &nbsp; &nbsp; &nbsp;无<span style="font-family: 宋体;">□</span></span></td>
+</tr>
+</tbody>
+</table>
+<table style="border-collapse: collapse; width: 99.9865%;" border="1"><colgroup><col style="width: 24.9646%;"><col style="width: 24.9646%;"><col style="width: 24.9646%;"><col style="width: 24.9646%;"></colgroup>
+<tbody>
+<tr>
+<td style="text-align: center;" valign="top" nowrap="nowrap" width="160">
+<p><span style="font-family: 宋体;">采购</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</td>
+<td style="text-align: center;" valign="top" nowrap="nowrap" width="160">
+<p><span style="font-family: 宋体;">使用科室负责人</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</td>
+<td style="text-align: center;" valign="top" nowrap="nowrap" width="160">
+<p><span style="font-family: 宋体;">设备管理员</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</td>
+<td style="text-align: center;" valign="top" nowrap="nowrap" width="160">
+<p><span style="font-family: 宋体;">安装工程师</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="MsoNormal" align="right">&nbsp;</p>
+<p class="MsoNormal" align="right">&nbsp;</p>
+<p class="MsoNormal" align="right"><span style="font-family: 宋体;"><span style="font-family: 宋体;">&nbsp;安装日期：&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;年&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;日</span> &nbsp; &nbsp;</span></p>` },
+    { id: '2', name: '模板二', content: '<p style="text-align: center;"><span style="font-size: 22pt; font-family: 方正小标宋简体;">医疗设备验收单</span></p>
+<p style="text-align: right;"><span style="font-family: 仿宋;">□是/□否安装类</span></p>
 <table style="border-collapse: collapse; width: 100.072%; height: 745.031px;" border="1"><colgroup><col style="width: 16%;"><col style="width: 34%;"><col style="width: 16%;"><col style="width: 34%;"></colgroup>
 <tbody>
 <tr style="height: 45px;">
 <td><span style="font-family: 仿宋;">资产名称</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld0l6zAu7" data-fieldname="设备名称">{$设备名称}</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fld0l6zAu7" data-fieldname="设备名称">{$设备名称}</span></td>
 <td><span style="font-family: 仿宋;">规格型号</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld2gouIKu" data-fieldname="规格型号">{$规格型号}</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fld2gouIKu" data-fieldname="规格型号">{$规格型号}</span></td>
 </tr>
 <tr style="height: 45px;">
 <td><span style="font-family: 仿宋;">注册证号</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldjM2ez5m" data-fieldname="注册证号">{$注册证号}</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fldjM2ez5m" data-fieldname="注册证号">{$注册证号}</span></td>
 <td><span style="font-family: 仿宋;">数 量</span></td>
-<td><span style="font-family: 仿宋;">1 </span><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld9d5fXdZ" data-fieldname="单位">{$单位}</span></td>
+<td><span style="font-family: 仿宋;">1 </span><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fld9d5fXdZ" data-fieldname="单位">{$单位}</span></td>
 </tr>
-<tr style="height: 45px">
+<tr style="height: 45px;">
 <td><span style="font-family: 仿宋;">生产厂家</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="flddb8GuUz" data-fieldname="生产厂家">{$生产厂家}</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="flddb8GuUz" data-fieldname="生产厂家">{$生产厂家}</span></td>
 <td><span style="font-family: 仿宋;">供应商</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldu2T1J8S" data-fieldname="供应商">{$供应商}</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fldu2T1J8S" data-fieldname="供应商">{$供应商}</span></td>
 </tr>
-<tr style="height: 45px">
+<tr style="height: 45px;">
 <td><span style="font-family: 仿宋;">出厂编号</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld6BPUxvb" data-fieldname="序列号">{$序列号}</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fld6BPUxvb" data-fieldname="序列号">{$序列号}</span></td>
 <td><span style="font-family: 仿宋;">生产日期</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldo9bMgLl" data-fieldname="生产日期" data-fieldtype="DateTime">{$生产日期}</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fldo9bMgLl" data-fieldname="生产日期" data-fieldtype="DateTime">{$生产日期}</span></td>
 </tr>
-<tr style="height: 45px">
+<tr style="height: 45px;">
 <td><span style="font-family: 仿宋;">使用年限</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fld56DEOGB" data-fieldname="使用年限">{$使用年限}</span><span style="font-family: 仿宋;"> 年</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fld56DEOGB" data-fieldname="使用年限">{$使用年限}</span><span style="font-family: 仿宋;"> 年</span></td>
 <td><span style="font-family: 仿宋;">放置位置</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldAnArF9M" data-fieldname="楼层">{$楼层}</span>-<span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldNrfi9fz" data-fieldname="房间">{$房间}</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fldAnArF9M" data-fieldname="楼层">{$楼层}</span>-<span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fldNrfi9fz" data-fieldname="房间">{$房间}</span></td>
 </tr>
-<tr style="height: 45px">
+<tr style="height: 45px;">
 <td><span style="font-family: 仿宋;">使用科室</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldmFepucJ" data-fieldname="使用部门">{$使用部门}</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fldmFepucJ" data-fieldname="使用部门">{$使用部门}</span></td>
 <td><span style="font-family: 仿宋;">保管人</span></td>
-<td><span style="font-family: 仿宋;" class="template-field field-block" contenteditable="false" data-fieldid="fldob1qFGp" data-fieldname="保管人">{$保管人}</span></td>
+<td><span class="template-field field-block" style="font-family: 仿宋;" contenteditable="false" data-fieldid="fldob1qFGp" data-fieldname="保管人">{$保管人}</span></td>
 </tr>
-<tr style="height: 45px">
+<tr style="height: 45px;">
 <td style="text-align: center;" colspan="4"><strong><span style="font-family: 仿宋;">附&nbsp; 件</span></strong></td>
 </tr>
-<tr style="height: 45px">
+<tr style="height: 45px;">
 <td><span style="font-family: 仿宋;">合格证</span></td>
 <td>&nbsp;</td>
 <td><span style="font-family: 仿宋;">说明书</span></td>
 <td>&nbsp;</td>
 </tr>
-<tr style="height: 45px">
+<tr style="height: 45px;">
 <td><span style="font-family: 仿宋;">技术资料</span></td>
 <td>&nbsp;</td>
 <td><span style="font-family: 仿宋;">其他附件</span></td>
 <td>&nbsp;</td>
 </tr>
-<tr style="height: 45px">
+<tr style="height: 45px;">
 <td style="text-align: center;" colspan="4"><strong><span style="font-family: 仿宋;">验收流程确认</span></strong></td>
 </tr>
-<tr style="height: 45px">
+<tr style="height: 45px;">
 <td><span style="font-family: 仿宋;">交付资产完好</span></td>
 <td><span style="font-family: 仿宋;">□是&nbsp; □否</span></td>
 <td><span style="font-family: 仿宋;">设备性能良好</span></td>
 <td><span style="font-family: 仿宋;">□是&nbsp; □否</span></td>
 </tr>
-<tr style="height: 45px">
+<tr style="height: 45px;">
 <td><span style="font-family: 仿宋;">主要功能正常<br></span></td>
 <td><span style="font-family: 仿宋;">□是&nbsp; □否</span></td>
 <td><span style="font-family: 仿宋;">操作教育完成<br></span></td>
@@ -185,8 +282,7 @@ onMounted(async () => {
 </tr>
 </tbody>
 </table>
-<p><span style="font-family: 仿宋;">注:本验收报告一式3份，医品部、财务部、所在科室各1份存档。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;年&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;日</span></p>` },
-    { id: '2', name: '模板二', content: '<p>这是<i>模板二</i>的内容。</p>' },
+<p><span style="font-family: 仿宋;">注:本验收报告一式3份，医品部、财务部、所在科室各1份存档。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;年&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;日</span></p>' },
   ];
 
   // Select the first template by default if available
